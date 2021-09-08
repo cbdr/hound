@@ -1,5 +1,5 @@
 node('PlatformSoftware') {
-    isMaster = isMasterBranch()
+    isMain = isMainBranch()
 
     stage('Checkout') {
         checkoutRepo('cbdr', 'hound')
@@ -34,7 +34,7 @@ node('PlatformSoftware') {
 
     }
     stage('Publish') {
-        if (isMaster) {
+        if (isMain) {
             try {
                 withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME')]) {
                     sh '''#!/bin/bash -el
@@ -50,13 +50,13 @@ node('PlatformSoftware') {
                 throw ex
             }
         } else {
-            println "Not on master, on branch: ${env.BRANCH_NAME}, nothing to publish"
+            println "Not on main, on branch: ${env.BRANCH_NAME}, nothing to publish"
         }
     }
 }
 
-def isMasterBranch() {
-    return 'master' == env.BRANCH_NAME
+def isMainBranch() {
+    return 'main' == env.BRANCH_NAME
 }
     
 def cleanupDockerImages() {
