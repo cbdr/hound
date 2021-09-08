@@ -1,0 +1,12 @@
+version: "1"
+services:
+  hound:
+    image: cbdr/ps-hound
+    build: .
+    ports:
+      - "6080"
+    restart: on-failure
+    volumes: 
+      - hounddata:/data
+volumes:
+  hounddata:

@@ -1,3 +1,4 @@
+
 FROM alpine:3.11.7
 
 ENV GOPATH /go
@@ -13,7 +14,8 @@ RUN apk update \
 	&& rm -f /var/cache/apk/* \
 	&& rm -rf /go/src /go/pkg
 
-VOLUME ["/data"]
+RUN mkdir ./data
+COPY config.json ./data
 
 EXPOSE 6080
 
