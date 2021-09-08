@@ -1,6 +1,11 @@
 node('PlatformSoftware') {
     isMain = isMainBranch()
 
+    stage('Clean') {
+        cleanWs()
+        cleanupDockerImages()
+    }
+
     stage('Checkout') {
         checkoutRepo('cbdr', 'hound')
     }
@@ -52,6 +57,11 @@ node('PlatformSoftware') {
         } else {
             println "Not on main, on branch: ${env.BRANCH_NAME}, nothing to publish"
         }
+    }
+
+    stage('Post Cleanup') {
+        cleanWs()
+        cleanupDockerImages()
     }
 }
 
