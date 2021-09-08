@@ -53,26 +53,27 @@ node('PlatformSoftware') {
             println "Not on master, on branch: ${env.BRANCH_NAME}, nothing to publish"
         }
     }
+}
 
-    def isMasterBranch() {
-        return 'master' == env.BRANCH_NAME
-    }
-    def cleanupDockerImages() {
-        try {
-            sh '''#!/bin/bash -l
-            echo "Cleaning up docker images"
-            TAGGED_IMAGES=$(docker images -f "reference=cbdr/ps-hound*:$BUILD_DISPLAY_NAME" | tail -n+2 | awk '{ print $1":"$2 }')
-            if [ -n "$TAGGED_IMAGES" ]; then
-                docker rmi $TAGGED_IMAGES
-            fi
-            if (ps ax | grep -q '[d]ocker build'); then
-                echo "\\`docker system prune\\` is skipped because a docker build is in progress"
-            else
-                docker system prune -f
-            fi
-            '''
-        } catch (ex) {
-        // error is ignored for cleanup
-        }
+def isMasterBranch() {
+    return 'master' == env.BRANCH_NAME
+}
+    
+def cleanupDockerImages() {
+    try {
+        sh '''#!/bin/bash -l
+        echo "Cleaning up docker images"
+        TAGGED_IMAGES=$(docker images -f "reference=cbdr/ps-hound*:$BUILD_DISPLAY_NAME" | tail -n+2 | awk '{ print $1":"$2 }')
+        if [ -n "$TAGGED_IMAGES" ]; then
+            docker rmi $TAGGED_IMAGES
+        fi
+        if (ps ax | grep -q '[d]ocker build'); then
+            echo "\\`docker system prune\\` is skipped because a docker build is in progress"
+        else
+            docker system prune -f
+        fi
+        '''
+    } catch (ex) {
+    // error is ignored for cleanup
     }
 }
