@@ -10,27 +10,27 @@
     },
     "repos" : {
         "OneIAM" : {
-            "url" : "https://github.com/cbdr/OneIAM_PlatformSoftware.git",
+            "url" : "git@github.com:cbdr/OneIAM_PlatformSoftware.git",
             "ms-between-poll": 3600000,
             "exclude-dot-files": true
         },
         "ConsentService" : {
-            "url" : "https://github.com/cbdr/ConsentService_PlatformSoftware.git",
+            "url" : "git@github.com:cbdr/ConsentService_PlatformSoftware.git",
             "ms-between-poll": 3600000,
             "exclude-dot-files": true
         },
         "AuthServer" : {
-            "url" : "https://github.com/cbdr/AuthServer_PlatformSoftware.git",
+            "url" : "git@github.com:cbdr/AuthServer_PlatformSoftware.git",
             "ms-between-poll": 3600000,
             "exclude-dot-files": true
         },
         "PlatformService" : {
-            "url" : "https://github.com/cbdr/PlatformService_PlatformSoftware.git",
+            "url" : "git@github.com:cbdr/PlatformService_PlatformSoftware.git",
             "ms-between-poll": 3600000,
             "exclude-dot-files": true
         },
         "UserAuth" : {
-            "url" : "https://github.com/cbdr/UserAuth_PlatformSoftware.git",
+            "url" : "git@github.com:cbdr/UserAuth_PlatformSoftware.git",
             "ms-between-poll": 3600000,
             "exclude-dot-files": true
         }

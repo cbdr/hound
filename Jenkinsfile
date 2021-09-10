@@ -11,23 +11,26 @@ node('PlatformSoftware') {
     }
     stage('Build') {
         try {
-            withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME')]) {
+            withCredentials([
+                usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME'), 
+                string(credentialsId: 'GITHUB_PRIVATE_KEY', variable: 'SSH_PRIVATE_KEY')
+            ]) {
 
-            sh '''#!/bin/bash -el
+                sh '''#!/bin/bash -el
 
-            docker login --username $DHUSERNAME --password $DHPASSWORD
+                docker login --username $DHUSERNAME --password $DHPASSWORD
 
-                # We double tag all images with the Jenkins Build ID ($BUILD_DISPLAY_NAME) and also "latest". The
-                # Jenkins Build ID tag will be used across this Jenkins build and will be removed after the build, to
-                # save disk space. The "latest" tag will be kept, so that docker build cache could be used. Untagged
-                # images will also be removed after the Jenkins build.
-                #
-                # We manually trigger the build-env stage and tag it to prevent it from always being pruned. Otherwise
-                # there would always be no build cache and would always need to build from scratch, which would be slow.
-            
-            docker build --label "GIT_COMMIT=$GIT_COMMIT" -t "cbdr/ps-hound:$BUILD_DISPLAY_NAME" -t cbdr/ps-hound:latest --force-rm .
-            
-            '''
+                    # We double tag all images with the Jenkins Build ID ($BUILD_DISPLAY_NAME) and also "latest". The
+                    # Jenkins Build ID tag will be used across this Jenkins build and will be removed after the build, to
+                    # save disk space. The "latest" tag will be kept, so that docker build cache could be used. Untagged
+                    # images will also be removed after the Jenkins build.
+                    #
+                    # We manually trigger the build-env stage and tag it to prevent it from always being pruned. Otherwise
+                    # there would always be no build cache and would always need to build from scratch, which would be slow.
+
+                docker build --label "GIT_COMMIT=$GIT_COMMIT" -t "cbdr/ps-hound:$BUILD_DISPLAY_NAME" -t cbdr/ps-hound:latest --build-arg SSH_PRIVATE_KEY=$SSH_PRIVATE_KEY --force-rm --quiet .
+
+                '''
             }
         } catch (ex) {
             cleanupDockerImages()
@@ -41,7 +44,7 @@ node('PlatformSoftware') {
     stage('Publish') {
         if (isMain) {
             try {
-                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME'), string(credentialsId:'SSH_PRIVATE_KEY', variable:'SSH_PRIVATE_KEY')]) {
                     sh '''#!/bin/bash -el
                     echo "Running docker login"
                     docker login --username $DHUSERNAME --password $DHPASSWORD
