@@ -28,11 +28,9 @@ node('PlatformSoftware') {
                     # We manually trigger the build-env stage and tag it to prevent it from always being pruned. Otherwise
                     # there would always be no build cache and would always need to build from scratch, which would be slow.
                 
-                cp $SSH_PRIVATE_KEY ./github_key
                 
-                docker build --label "GIT_COMMIT=$GIT_COMMIT" -t "cbdr/ps-hound:$BUILD_DISPLAY_NAME" -t cbdr/ps-hound:latest --build-arg SSH_PRIVATE_KEY=$(cat ./github_key) --force-rm --quiet .
+                docker build --label "GIT_COMMIT=$GIT_COMMIT" -t "cbdr/ps-hound:$BUILD_DISPLAY_NAME" -t cbdr/ps-hound:latest --build-arg SSH_PRIVATE_KEY="$(cat $SSH_PRIVATE_KEY)" --force-rm --quiet .
 
-                rm ./github_key
                 '''
             }
         } catch (ex) {
