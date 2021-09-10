@@ -13,7 +13,7 @@ node('PlatformSoftware') {
         try {
             withCredentials([
                 usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME'), 
-                string(credentialsId: 'GITHUB_PRIVATE_KEY', variable: 'SSH_PRIVATE_KEY')
+                sshUserPrivateKey(credentialsId: 'GITHUB_PRIVATE_KEY', keyFileVariable: 'SSH_PRIVATE_KEY')
             ]) {
 
                 sh '''#!/bin/bash -el
@@ -28,7 +28,7 @@ node('PlatformSoftware') {
                     # We manually trigger the build-env stage and tag it to prevent it from always being pruned. Otherwise
                     # there would always be no build cache and would always need to build from scratch, which would be slow.
 
-                docker build --label "GIT_COMMIT=$GIT_COMMIT" -t "cbdr/ps-hound:$BUILD_DISPLAY_NAME" -t cbdr/ps-hound:latest --build-arg SSH_PRIVATE_KEY=$SSH_PRIVATE_KEY --force-rm --quiet .
+                docker build --label "GIT_COMMIT=$GIT_COMMIT" -t "cbdr/ps-hound:$BUILD_DISPLAY_NAME" -t cbdr/ps-hound:latest --build-arg SSH_PRIVATE_KEY=$(cat $SSH_PRIVATE_KEY) --force-rm --quiet .
 
                 '''
             }
