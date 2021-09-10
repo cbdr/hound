@@ -45,7 +45,7 @@ node('PlatformSoftware') {
     stage('Publish') {
         if (isMain) {
             try {
-                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME'), string(credentialsId:'SSH_PRIVATE_KEY', variable:'SSH_PRIVATE_KEY')]) {
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME')]) {
                     sh '''#!/bin/bash -el
                     echo "Running docker login"
                     docker login --username $DHUSERNAME --password $DHPASSWORD
