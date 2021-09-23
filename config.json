@@ -9,28 +9,23 @@
         }
     },
     "repos" : {
+        "CBSys" : {
+            "url" : "git@github.com:cbdr/CBSys.git",
+            "ms-between-poll": 3600000,
+            "exclude-dot-files": true
+        },
+        "AxiomSys" : {
+            "url" : "git@github.com:cbdr/AxiomSys.git",
+            "ms-between-poll": 3600000,
+            "exclude-dot-files": true
+        },
+        "DPISys" : {
+            "url" : "git@github.com:cbdr/DPISys.git",
+            "ms-between-poll": 3600000,
+            "exclude-dot-files": true
+        },
         "OneIAM" : {
             "url" : "git@github.com:cbdr/OneIAM_PlatformSoftware.git",
-            "ms-between-poll": 3600000,
-            "exclude-dot-files": true
-        },
-        "ConsentService" : {
-            "url" : "git@github.com:cbdr/ConsentService_PlatformSoftware.git",
-            "ms-between-poll": 3600000,
-            "exclude-dot-files": true
-        },
-        "AuthServer" : {
-            "url" : "git@github.com:cbdr/AuthServer_PlatformSoftware.git",
-            "ms-between-poll": 3600000,
-            "exclude-dot-files": true
-        },
-        "PlatformService" : {
-            "url" : "git@github.com:cbdr/PlatformService_PlatformSoftware.git",
-            "ms-between-poll": 3600000,
-            "exclude-dot-files": true
-        },
-        "UserAuth" : {
-            "url" : "git@github.com:cbdr/UserAuth_PlatformSoftware.git",
             "ms-between-poll": 3600000,
             "exclude-dot-files": true
         }
