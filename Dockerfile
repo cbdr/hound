@@ -28,7 +28,8 @@ RUN apk update \
 	&& rm -rf /go/src /go/pkg
 
 RUN mkdir ./data
-COPY config.json ./data
+
+VOLUME [ "/data" ]
 
 EXPOSE 6080
 
