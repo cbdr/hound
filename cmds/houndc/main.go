@@ -13,6 +13,7 @@ func main() {
 
 	username := flag.String("username", "", "")
 	password := flag.String("password", "", "")
+	output := flag.String("outputfile", "config.json", "")
 
 	flag.Parse()
 
@@ -68,5 +69,5 @@ func main() {
 		opt.Page = resp.NextPage
 	}
 
-	configFile.SaveToFile("config.json")
+	configFile.SaveToFile(*output)
 }
