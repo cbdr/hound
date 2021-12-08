@@ -47,6 +47,7 @@ func main() {
 	for {
 		repos, resp, err := client.Repositories.ListByOrg(ctx, "cbdr", opt)
 		if err != nil {
+			println(err.Error())
 			return
 		}
 
